@@ -9,12 +9,12 @@ public class FPSInput : MonoBehaviour
     public float gravity = -9.8f;
     private CharacterController _characterController;
 
-    private Rigidbody _rigidbody;
+    //private Rigidbody _rigidbody;
     // Start is called before the first frame update
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        _rigidbody = GetComponent<Rigidbody>();
+        //_rigidbody = GetComponent<Rigidbody>();
 
     }
 
@@ -33,8 +33,8 @@ public class FPSInput : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //_characterController.Move(new Vector3(0, 10, 0));
-            _rigidbody.AddForce(new Vector3(0,10f,0) * 10, ForceMode.Impulse);
+            _characterController.Move(new Vector3(0, 10, 0));
+            //_rigidbody.AddForce(new Vector3(0,10f,0) * 10, ForceMode.Impulse);
         }
 
 
