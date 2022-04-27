@@ -6,7 +6,7 @@ using UnityEngine;
 public class FPSInput : MonoBehaviour
 {
     public float speed = 6.0f;
-    public float gravity = -9.8f;
+    public float runSpeed = 12.0f;
     private CharacterController _characterController;
     
     public float jumpSpeed;
@@ -22,10 +22,26 @@ public class FPSInput : MonoBehaviour
     
     void Update()
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
-        float deltaZ = Input.GetAxis("Vertical") * speed;
-        Vector3 movement = new Vector3(deltaX, 0, deltaZ);
-        movement = Vector3.ClampMagnitude(movement, speed);
+        float deltaX;
+        float deltaZ;
+        Vector3 movement;
+        
+        if (Input.GetButton("Fire1"))
+        {
+            deltaX = Input.GetAxis("Horizontal") * runSpeed;
+            deltaZ = Input.GetAxis("Vertical") * runSpeed;
+            movement = new Vector3(deltaX, 0, deltaZ);
+            movement = Vector3.ClampMagnitude(movement, runSpeed);
+        }
+        else
+        {
+            deltaX = Input.GetAxis("Horizontal") * speed;
+            deltaZ = Input.GetAxis("Vertical") * speed;
+            movement = new Vector3(deltaX, 0, deltaZ);
+            movement = Vector3.ClampMagnitude(movement, speed);
+
+        }
+
         ySpeed += Physics.gravity.y * Time.deltaTime;
         if (_characterController.isGrounded)
         {
