@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 [AddComponentMenu("Control Script/FPSInput")]
@@ -10,13 +8,13 @@ public class FPSInput : MonoBehaviour
     private CharacterController _characterController;
     
     public float jumpSpeed;
-    private float ySpeed;
-    private float originalStepOffstep;
+    private float _ySpeed;
+    private float _originalStepOffstep;
     
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        originalStepOffstep = _characterController.stepOffset;
+        _originalStepOffstep = _characterController.stepOffset;
 
     }
     
@@ -42,21 +40,21 @@ public class FPSInput : MonoBehaviour
 
         }
 
-        ySpeed += Physics.gravity.y * Time.deltaTime;
+        _ySpeed += Physics.gravity.y * Time.deltaTime;
         if (_characterController.isGrounded)
         {
-            _characterController.stepOffset = originalStepOffstep;
-            ySpeed = -0.5f;
+            _characterController.stepOffset = _originalStepOffstep;
+            _ySpeed = -0.5f;
             if (Input.GetButtonDown("Jump"))
             {
-                ySpeed = jumpSpeed;
+                _ySpeed = jumpSpeed;
             }
             else
             {
                 _characterController.stepOffset = 0;
             }
         }
-        movement.y = ySpeed;
+        movement.y = _ySpeed;
         movement = transform.TransformDirection(movement);
         _characterController.Move(movement * Time.deltaTime);
     }
