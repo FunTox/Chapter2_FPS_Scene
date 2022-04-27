@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 9
-  gravity: -9.8
+  runSpeed: 18
   jumpSpeed: 5
 --- !u!1 &83757206
 GameObject:
