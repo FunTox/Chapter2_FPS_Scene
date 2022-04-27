@@ -8,35 +8,40 @@ public class FPSInput : MonoBehaviour
     public float speed = 6.0f;
     public float gravity = -9.8f;
     private CharacterController _characterController;
-
-    //private Rigidbody _rigidbody;
-    // Start is called before the first frame update
+    
+    public float jumpSpeed;
+    private float ySpeed;
+    private float originalStepOffstep;
+    
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        //_rigidbody = GetComponent<Rigidbody>();
+        originalStepOffstep = _characterController.stepOffset;
 
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         float deltaX = Input.GetAxis("Horizontal") * speed;
         float deltaZ = Input.GetAxis("Vertical") * speed;
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
         movement = Vector3.ClampMagnitude(movement, speed);
-        movement.y = gravity;
-
-        movement *= Time.deltaTime;
-        movement = transform.TransformDirection(movement);
-        _characterController.Move(movement);
-        
-        if (Input.GetKeyDown(KeyCode.Space))
+        ySpeed += Physics.gravity.y * Time.deltaTime;
+        if (_characterController.isGrounded)
         {
-            _characterController.Move(new Vector3(0, 10, 0));
-            //_rigidbody.AddForce(new Vector3(0,10f,0) * 10, ForceMode.Impulse);
+            _characterController.stepOffset = originalStepOffstep;
+            ySpeed = -0.5f;
+            if (Input.GetButtonDown("Jump"))
+            {
+                ySpeed = jumpSpeed;
+            }
+            else
+            {
+                _characterController.stepOffset = 0;
+            }
         }
-
-
+        movement.y = ySpeed;
+        movement = transform.TransformDirection(movement);
+        _characterController.Move(movement * Time.deltaTime);
     }
 }
