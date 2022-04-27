@@ -10,6 +10,7 @@ public class FPSInput : MonoBehaviour
     public float jumpSpeed;
     private float _ySpeed;
     private float _originalStepOffstep;
+    private float _acceleration;
     
     void Start()
     {
@@ -20,26 +21,11 @@ public class FPSInput : MonoBehaviour
     
     void Update()
     {
-        float deltaX;
-        float deltaZ;
-        Vector3 movement;
-        
-        if (Input.GetButton("Fire1"))
-        {
-            deltaX = Input.GetAxis("Horizontal") * runSpeed;
-            deltaZ = Input.GetAxis("Vertical") * runSpeed;
-            movement = new Vector3(deltaX, 0, deltaZ);
-            movement = Vector3.ClampMagnitude(movement, runSpeed);
-        }
-        else
-        {
-            deltaX = Input.GetAxis("Horizontal") * speed;
-            deltaZ = Input.GetAxis("Vertical") * speed;
-            movement = new Vector3(deltaX, 0, deltaZ);
-            movement = Vector3.ClampMagnitude(movement, speed);
-
-        }
-
+        _acceleration = Input.GetButton("Fire1")? runSpeed: speed;
+        float deltaX = Input.GetAxis("Horizontal") * _acceleration;
+        float deltaZ = Input.GetAxis("Vertical") * _acceleration;
+        Vector3 movement = new Vector3(deltaX, 0, deltaZ);
+        movement = Vector3.ClampMagnitude(movement, _acceleration);
         _ySpeed += Physics.gravity.y * Time.deltaTime;
         if (_characterController.isGrounded)
         {
